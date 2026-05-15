@@ -48,7 +48,7 @@ def load_assets():
     clip_tokenizer = open_clip.get_tokenizer("ViT-B-32")
     
     if not os.path.exists("clip_finetuned_16.pt"):
-        st.error("❌ Missing 'clip_finetuned_16.pt'! Put it in the same folder as app.py.")
+        st.error("Missing 'clip_finetuned_16.pt'! Put it in the same folder as app.py.")
         st.stop()
         
     clip_model.load_state_dict(torch.load("clip_finetuned_16.pt", map_location=device))
@@ -57,7 +57,7 @@ def load_assets():
     # 3. Load HNSW Index (Config C, Alpha 0.7, Seed 16)
     index = hnswlib.Index(space="cosine", dim=512)
     if not os.path.exists("index_C_07_16.bin"):
-        st.error("❌ Missing 'index_C_07_16.bin'! Put it in the same folder as app.py.")
+        st.error("Missing 'index_C_07_16.bin'! Put it in the same folder as app.py.")
         st.stop()
         
     index.load_index("index_C_07_16.bin")
