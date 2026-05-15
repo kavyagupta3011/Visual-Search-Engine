@@ -18,7 +18,7 @@ QUERY_DIR = "/kaggle/working/finalVR/Divya/PleaseBeCorrect/query"
 GALLERY_METADATA = f"{BASE_PATH}/gallery_metadata.csv"
 K_VALUES = [5, 10, 15]
 SEEDS = [16, 34, 59]
-MAX_QUERIES = 2000
+MAX_QUERIES = 1000
 QUERY_SAMPLE_SEED = 42
 
 def set_seed(seed):
