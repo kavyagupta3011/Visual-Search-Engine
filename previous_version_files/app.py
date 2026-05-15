@@ -23,28 +23,13 @@ def load_assets():
     
     # 1. Load YOLO
 
-
-
-
-    ########## TO CHNAHEGEEEEEEEEEEEEEEEEEEEEEEEEE
     yolo = YOLO("best.pt")
-    ##################################
-
-
-
-
-
-
-
-
-
-
     
     # 2. Load Fine-Tuned CLIP (Seed 16)
     clip_model, _, clip_preprocess = open_clip.create_model_and_transforms("ViT-B-32", pretrained="openai")
     
     if not os.path.exists("clip_finetuned_16.pt"):
-        st.error("❌ Missing 'clip_finetuned_16.pt'! Put it in the same folder as app.py.")
+        st.error(" Missing 'clip_finetuned_16.pt'! Put it in the same folder as app.py.")
         st.stop()
         
     clip_model.load_state_dict(torch.load("clip_finetuned_16.pt", map_location=device))
@@ -53,7 +38,7 @@ def load_assets():
     # 3. Load HNSW Index (Config C, Alpha 0.7, Seed 16)
     index = hnswlib.Index(space="cosine", dim=512)
     if not os.path.exists("index_C_07_16.bin"):
-        st.error("❌ Missing 'index_C_07_16.bin'! Put it in the same folder as app.py.")
+        st.error(" Missing 'index_C_07_16.bin'! Put it in the same folder as app.py.")
         st.stop()
         
     index.load_index("index_C_07_16.bin")
@@ -81,7 +66,7 @@ requested_type = TYPE_MAP[clothing_choice]
 
 
 
-############################################################################
+
 def crop_with_yolo(yolo_model, pil_image, requested_type):
 
     YOLO_CLASS_MAP = {
@@ -131,7 +116,7 @@ def crop_with_yolo(yolo_model, pil_image, requested_type):
         )),
         True
     )
-#########################################################################
+
 
 
 
@@ -168,7 +153,7 @@ if uploaded_file:
         st.image(original_img, caption="📷 Original Image", use_column_width=True)
     with col2:
         if was_cropped:
-            st.image(cropped_img, caption="✂️ YOLO Cropped Region", use_column_width=True)
+            st.image(cropped_img, caption=" YOLO Cropped Region", use_column_width=True)
             st.success("YOLO successfully isolated the primary clothing item.")
         else:
             st.image(original_img, caption="No confident crop found", use_column_width=True)
@@ -181,7 +166,7 @@ if uploaded_file:
     if was_cropped:
         confirm = st.radio(
             "Confirm which image to send to the search engine:", 
-            ["✅ Use YOLO Crop (Recommended)", "🔄 Use Original Image"]
+            [" Use YOLO Crop (Recommended)", " Use Original Image"]
         )
         if "Crop" in confirm:
             use_image = cropped_img
@@ -190,7 +175,7 @@ if uploaded_file:
     
 
 
-    if st.button("🔍 Search Similar Products", type="primary", use_container_width=True):
+    if st.button(" Search Similar Products", type="primary", use_container_width=True):
         with st.spinner("Embedding query and searching HNSW index..."):
             query_emb = get_image_embedding(clip_model, clip_preprocess, use_image, device)
             search_k = max(K * 5, 20)
@@ -257,4 +242,4 @@ if uploaded_file:
                     color = "green" if similarity > 0.8 else "orange" if similarity > 0.6 else "red"
                     
                     st.markdown(f"<h4 style='color:{color}; margin-bottom:0px;'>Score: {similarity:.4f}</h4>", unsafe_allow_html=True)
-                    st.caption(f"**ID:** `{row['item_id']}`\n\n📝 {row.get('caption', '')[:65]}...")
+                    st.caption(f"**ID:** `{row['item_id']}`\n\n {row.get('caption', '')[:65]}...")

@@ -45,7 +45,7 @@ def load_query_data(query_dir, metadata):
     return query_data
 
 
-############################################################################
+
 def crop_with_yolo(yolo_model, pil_image, requested_type):
 
     YOLO_CLASS_MAP = {
@@ -95,7 +95,7 @@ def crop_with_yolo(yolo_model, pil_image, requested_type):
         )),
         True
     )
-#########################################################################
+
 
 
 def get_image_embedding(clip_model, clip_preprocess, pil_image, device):
